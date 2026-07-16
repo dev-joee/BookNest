@@ -1,0 +1,19 @@
+1- Read System Requirements and Understand the business side    [~]
+
+2- Database Design - Logical Schema (ERD)                       [~]
+
+3- MVC Application - Data                                       [~]
+    3.1- Models                         [~]
+    3.2- Repositories                   [~]
+    3.3- Validation                     [~]
+        3.3.1- Book => Unique                   [~]
+        3.3.2- BorrowRecord => AfterBorrowDate  [~]
+        3.3.3- BookNestUser => RoleExists       [~]
+    3.4- BookNestDbContext              [~]
+    3.5- Identity Integration           [~]
+    3.6- Setup Program                  [~]
+    3.7- Miagration and Setup Database  [~]
+
+4- MVC Application - Services                                   []
+
+5- MVC Application - Web                                        []
