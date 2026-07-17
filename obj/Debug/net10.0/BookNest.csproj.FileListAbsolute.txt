@@ -162,3 +162,4 @@
 /home/joe/PC/Programming/Projects/Web/BookNest/obj/Debug/net10.0/BookNest.pdb
 /home/joe/PC/Programming/Projects/Web/BookNest/obj/Debug/net10.0/BookNest.genruntimeconfig.cache
 /home/joe/PC/Programming/Projects/Web/BookNest/obj/Debug/net10.0/ref/BookNest.dll
+/home/joe/PC/Programming/Projects/Web/BookNest/obj/Debug/net10.0/BookNest.sourcelink.json

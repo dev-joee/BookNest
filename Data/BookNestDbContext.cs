@@ -12,4 +12,5 @@ public class BookNestDbContext : IdentityDbContext<BookNestUser>
     DbSet<BorrowRecord> BorrowRecords { set; get; }
     DbSet<Category> Categorys { set; get; }
     DbSet<Member> Members { set; get; }
+    DbSet<UserRecord> UserRecords { set; get; }
 }
