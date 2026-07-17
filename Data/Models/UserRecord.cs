@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.ConstrainedExecution;
 using BookNest.Data.Models.Enums;
+using BookNest.Data.Identity;
 
 namespace BookNest.Data.Models;
 
@@ -10,6 +11,7 @@ public class UserRecord
     [Key]
     public int Id { get; set; }
     public EnAction Action { get; set; }
+    public DateTime ActionDateTime { get; set; }
     
     [ForeignKey("BookNestUser")]
     public string UserId { get; set; }

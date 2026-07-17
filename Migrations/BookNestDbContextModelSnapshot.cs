@@ -255,6 +255,9 @@ namespace BookNest.Migrations
                     b.Property<int>("Action")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ActionDateTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
