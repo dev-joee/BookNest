@@ -1,10 +1,11 @@
-﻿using BookNest.Data.Identity;
+using BookNest.Data.Identity;
 using BookNest.Services.DTOs;
+using BookNest.Services.IService;
 using Microsoft.AspNetCore.Identity;
 
-namespace BookNest.Services;
+namespace BookNest.Services.Service;
 
-public class AccountService
+public class AccountService : IAccountService
 {
     private readonly UserManager<BookNestUser> _userManager;
     private readonly SignInManager<BookNestUser> _signInManager;

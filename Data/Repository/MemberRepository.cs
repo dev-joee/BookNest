@@ -11,4 +11,9 @@ public class MemberRepository : GenaricRepository<Member>, IMemberRepository
     {
         _context = context;
     }
+
+    public Member? SearchByFirstName(string firstName)
+    {
+        return _context.Members.FirstOrDefault(m => m.FirstName == firstName);
+    }
 }

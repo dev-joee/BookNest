@@ -10,4 +10,9 @@ public class AuthorRepository : GenaricRepository<Author>, IAuthorRepository
     {
         _context = context;
     }
+
+    public Author? SearchByName(string name)
+    {
+        return _context.Authors.FirstOrDefault(a => a.Name == name);
+    }
 }

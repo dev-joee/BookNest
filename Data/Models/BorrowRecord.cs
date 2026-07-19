@@ -17,8 +17,6 @@ public class BorrowRecord
     
     public DateTime ReturnDate { get; set; }
 
-    public EnStatue Statue { get; set; }
-
     // Reletions
     [ForeignKey("Member")]
     public int MemnerId { get; set; }

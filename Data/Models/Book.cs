@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BookNest.Data.Models.Enums;
 using BookNest.Data.Validation;
 
 namespace BookNest.Data.Models;
@@ -26,9 +27,11 @@ public class Book
     [RegularExpression(@"^.*\.(png|jpg)$", ErrorMessage = "Image must be JPG or PNG only")]
     public string? CoverImage { get; set; }
 
+    public EnStatue Statue { get; set; }
+
     // Relations
     [ForeignKey("BorrowRecord")]
-    public int BoorowRecordId { get; set; }
+    public int? BoorowRecordId { get; set; }
     public BorrowRecord? BorrowRecord { get; set; }
 
     [ForeignKey("Category")]
