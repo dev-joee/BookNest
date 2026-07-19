@@ -10,4 +10,9 @@ public class CategoryRepository : GenaricRepository<Category>, ICategoryReposito
     {
         _context = context;
     }
+
+    public Category? SearchByName(string name)
+    {
+        return _context.Categorys.FirstOrDefault(c => c.Name == name);
+    }
 }
