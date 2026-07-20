@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BookNest.Data.Identity;
 
 namespace BookNest.Data.Models;
 
@@ -23,4 +24,9 @@ public class Member
     public string? Address { get; set; }
     
     public DateTime DateOfBirth { get; set; }
+
+    // I will not treat a member as an Identity User, it is an entity refering to Libraty Members not just users for login
+    // so i will link it to a BookNest entity via FK
+    public string UserId { get; set; }
+    public BookNestUser? User { get; set; }
 }

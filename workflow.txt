@@ -47,17 +47,17 @@
  ROADMAP
 ==================================================================
 
-1- Read & Understand Business Requirements                    [~]
+1- Read & Understand Business Requirements                     [~]
 
     1.1- Read Docs/Business_Requirements.md                    [~]
     1.2- Identify roles (Admin, Librarian, Member)             [~]
     1.3- Identify modules & business rules (BR-1..BR-9)        [~]
 
 
-2- Restore Compilable Baseline (UNBLOCK THE BUILD)            [ ]
+2- Restore Compilable Baseline (UNBLOCK THE BUILD)             [ ]
 
     2.1- Comment out / stub Service registrations in
-         Program.cs so the solution compiles again            [ ]
+         Program.cs so the solution compiles again             [ ]
     2.2- Register missing repo: IUserRecordRepositoy ->
          UserRecordRepositoy in Program.cs                     [ ]
     2.3- Add app.UseAuthentication() before
@@ -65,7 +65,7 @@
     2.4- Confirm `dotnet build` succeeds                       [ ]
 
 
-3- Data Layer - Models & Cleanup                             [!]
+3- Data Layer - Models & Cleanup                               [!]
 
     3.1- Entities present                                      [~]
 
@@ -142,7 +142,7 @@
         3.7.3- Inherit IdentityDbContext (done)                [~]
 
 
-4- Identity, Seeding & Program Configuration                 [!]
+4- Identity, Seeding & Program Configuration                   [!]
 
     4.1- Identity registered                                   [~]
     4.2- Review password policy (currently very weak;
@@ -154,14 +154,14 @@
     4.7- Configure logging (ILogger usage baseline)            [ ]
 
 
-5- Database Migrations                                        [ ]
+5- Database Migrations                                         [ ]
 
     5.1- Add initial migration (after Section 3 & 4)           [ ]
     5.2- Update database                                       [ ]
     5.3- Verify tables, keys, unique ISBN index, seed data     [ ]
 
 
-6- DTO Layer (rebuild)                                        [ ]
+6- DTO Layer (rebuild)                                         [ ]
 
     6.1- Category DTOs (create/edit/list)                      [ ]
     6.2- Author DTOs                                           [ ]
@@ -172,10 +172,10 @@
     6.7- Mapping helpers (manual mapping, no AutoMapper)       [ ]
 
 
-7- Service Layer (rebuild) + re-enable DI in Program.cs      [ ]
+7- Service Layer (rebuild) + re-enable DI in Program.cs        [ ]
 
     7.1- IAccountService / AccountService
-         (register, login, logout, change password)           [ ]
+         (register, login, logout, change password)            [ ]
     7.2- ICategoryService / CategoryService (CRUD+search)      [ ]
     7.3- IAuthorService / AuthorService (CRUD+search)          [ ]
     7.4- IBookService / BookService
@@ -195,7 +195,7 @@
     7.9- All service methods ASYNC                             [ ]
 
 
-8- Shared Infrastructure for UI                              [ ]
+8- Shared Infrastructure for UI                                [ ]
 
     8.1- ViewModels folder + base list/paged view model        [ ]
     8.2- Pagination helper (page size = 10)                    [ ]
@@ -204,7 +204,7 @@
     8.5- Navigation layout by role (_Layout partials)          [ ]
 
 
-9- Authentication Module (FR-1..FR-5)                        [ ]
+9- Authentication Module (FR-1..FR-5)                          [ ]
 
     9.1- AccountController (Register)                          [ ]
     9.2- Login                                                 [ ]
@@ -214,7 +214,7 @@
     9.6- Role assignment on register (Member default)          [ ]
 
 
-10- Member Module                                            [ ]
+10- Member Module                                              [ ]
 
     10.1- Browse books (list + pagination)                     [ ]
     10.2- Search books (title, ISBN, author)                   [ ]
@@ -227,7 +227,7 @@
     10.9- Views for all above                                  [ ]
 
 
-11- Librarian Module                                         [ ]
+11- Librarian Module                                           [ ]
 
     11.1- Book management (CRUD + cover upload)                [ ]
     11.2- Author management (CRUD)                             [ ]
@@ -239,7 +239,7 @@
     11.8- Views for all above                                  [ ]
 
 
-12- Admin Module                                             [ ]
+12- Admin Module                                               [ ]
 
     12.1- Manage users (list, edit, delete)                    [ ]
     12.2- Manage roles                                         [ ]
@@ -248,7 +248,7 @@
     12.5- Views for all above                                  [ ]
 
 
-13- Dashboards (Module 2)                                     [ ]
+13- Dashboards (Module 2)                                      [ ]
 
     13.1- Member dashboard                                     [ ]
     13.2- Librarian dashboard                                  [ ]
@@ -257,7 +257,7 @@
           members, active borrowings                           [ ]
 
 
-14- Reports (Module 10, Admin)                               [ ]
+14- Reports (Module 10, Admin)                                 [ ]
 
     14.1- Total / Available / Borrowed books                   [ ]
     14.2- Most borrowed books                                  [ ]
@@ -266,7 +266,7 @@
     14.5- Report views                                         [ ]
 
 
-15- User Interface Polish                                    [ ]
+15- User Interface Polish                                      [ ]
 
     15.1- Consistent Bootstrap layout & responsive design      [ ]
     15.2- Role-based navigation menu                           [ ]
@@ -275,24 +275,24 @@
     15.5- Empty-state & not-found pages                        [ ]
 
 
-16- Security & Authorization                                 [ ]
+16- Security & Authorization                                   [ ]
 
     16.1- [Authorize] on all protected controllers/actions     [ ]
-    16.2- Role-based [Authorize(Roles=...)]                     [ ]
+    16.2- Role-based [Authorize(Roles=...)]                    [ ]
     16.3- Anti-forgery tokens on all POST forms (CSRF)         [ ]
     16.4- Verify each role only sees allowed pages             [ ]
     16.5- Confirm passwords hashed by Identity                 [ ]
 
 
-17- Testing & Final Review                                   [ ]
+17- Testing & Final Review                                     [ ]
 
     17.1- Manual test each functional requirement (FR-1..40)   [ ]
     17.2- Verify each business rule (BR-1..BR-9)               [ ]
     17.3- Test search / filter / sort / pagination             [ ]
-    17.4- Test file upload (JPG/PNG only)                       [ ]
-    17.5- Verify logging & exception handling                   [ ]
-    17.6- Final build + run clean                               [ ]
-    17.7- Update README with setup & run instructions           [ ]
+    17.4- Test file upload (JPG/PNG only)                      [ ]
+    17.5- Verify logging & exception handling                  [ ]
+    17.6- Final build + run clean                              [ ]
+    17.7- Update README with setup & run instructions          [ ]
 
 ==================================================================
  NEXT ACTION: Start at Task 2 (unblock the build), then work

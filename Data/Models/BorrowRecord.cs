@@ -15,10 +15,16 @@ public class BorrowRecord
     [AfterBorrowDate]
     public DateTime DueDate { get; set; }
     
-    public DateTime ReturnDate { get; set; }
+    public DateTime? ReturnDate { get; set; }
+
+    public EnStatue Statue { get; set; }
 
     // Reletions
     [ForeignKey("Member")]
-    public int MemnerId { get; set; }
+    public int MemberId { get; set; }
     public Member? Member { get; set; }
+
+    [ForeignKey("Book")]
+    public int BookId { get; set; }
+    public Book? Book { get; set; }
 }

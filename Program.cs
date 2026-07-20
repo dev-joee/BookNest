@@ -2,8 +2,8 @@ using BookNest;
 using BookNest.Data.Identity;
 using BookNest.Data.IRepository;
 using BookNest.Data.Repository;
-using BookNest.Services.IService;
-using BookNest.Services.Service;
+// using BookNest.Services.IService;
+// using BookNest.Services.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -34,14 +34,15 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<IBorrowRecordRepository, BorrowRecordRepository>();
+builder.Services.AddScoped<IUserRecordRepositoy, UserRecordRepositoy>();
 
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAuthorService, AuthorService>();
-builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IMemberService, MemberService>();
-builder.Services.AddScoped<IBorrowRecordService, BorrowRecordService>();
-builder.Services.AddScoped<IUserService, UserService>();
+// builder.Services.AddScoped<IAccountService, AccountService>();
+// builder.Services.AddScoped<IAuthorService, AuthorService>();
+// builder.Services.AddScoped<IBookService, BookService>();
+// builder.Services.AddScoped<ICategoryService, CategoryService>();
+// builder.Services.AddScoped<IMemberService, MemberService>();
+// builder.Services.AddScoped<IBorrowRecordService, BorrowRecordService>();
+// builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -55,6 +56,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

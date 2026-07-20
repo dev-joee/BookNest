@@ -27,13 +27,7 @@ public class Book
     [RegularExpression(@"^.*\.(png|jpg)$", ErrorMessage = "Image must be JPG or PNG only")]
     public string? CoverImage { get; set; }
 
-    public EnStatue Statue { get; set; }
-
     // Relations
-    [ForeignKey("BorrowRecord")]
-    public int? BoorowRecordId { get; set; }
-    public BorrowRecord? BorrowRecord { get; set; }
-
     [ForeignKey("Category")]
     public int CategoryId { get; set; }
     public Category? Category { get; set; }

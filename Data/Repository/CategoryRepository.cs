@@ -13,6 +13,6 @@ public class CategoryRepository : GenaricRepository<Category>, ICategoryReposito
 
     public Category? SearchByName(string name)
     {
-        return _context.Categorys.FirstOrDefault(c => c.Name == name);
+        return _context.Categories.FirstOrDefault(c => c.Name == name);
     }
 }
