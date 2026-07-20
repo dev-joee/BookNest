@@ -1,12 +1,10 @@
-﻿namespace BookNest.Data.IRepository;
-
-public interface IGenaricRepository<T> where T : class
+﻿public interface IGenaricRepository<T> where T : class
 {
-    void Create(T obj);
-    void Update(T obj);
+    Task CreateAsync(T obj);
     void Delete(T obj);
-    void DeleteById(int id);
-    IEnumerable<T> GetAll();
-    T? GetById(int id);
-    void Save();
+    Task DeleteByIdAsync(int id);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<T?> GetByIdAsync(int id);
+    void Update(T obj);
+    Task SaveAsync();
 }

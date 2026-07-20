@@ -1,17 +1,20 @@
 ﻿using BookNest.Data.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookNest.Data.Repository;
 
 public class GenaricRepository<T> : IGenaricRepository<T> where T : class
 {
     private readonly BookNestDbContext _context;
+
     public GenaricRepository(BookNestDbContext context)
     {
         _context = context;
     }
-    public void Create(T obj)
+
+    public async Task CreateAsync(T obj)
     {
-        _context.Set<T>().Add(obj);
+        await _context.Set<T>().AddAsync(obj);
     }
 
     public void Delete(T obj)
@@ -19,19 +22,24 @@ public class GenaricRepository<T> : IGenaricRepository<T> where T : class
         _context.Set<T>().Remove(obj);
     }
 
-    public void DeleteById(int id)
+    public async Task DeleteByIdAsync(int id)
     {
-        this.Delete(GetById(id));
+        var entity = await GetByIdAsync(id);
+
+        if (entity != null)
+        {
+            Delete(entity);
+        }
     }
 
-    public IEnumerable<T> GetAll()
+    public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return _context.Set<T>().ToList();
+        return await _context.Set<T>().ToListAsync();
     }
 
-    public T? GetById(int id)
+    public async Task<T?> GetByIdAsync(int id)
     {
-        return _context.Set<T>().Find(id);
+        return await _context.Set<T>().FindAsync(id);
     }
 
     public void Update(T obj)
@@ -39,8 +47,8 @@ public class GenaricRepository<T> : IGenaricRepository<T> where T : class
         _context.Update(obj);
     }
 
-    public void Save()
+    public async Task SaveAsync()
     {
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

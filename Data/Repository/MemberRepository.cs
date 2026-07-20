@@ -1,5 +1,6 @@
 ﻿using BookNest.Data.IRepository;
 using BookNest.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 
 namespace BookNest.Data.Repository;
@@ -12,8 +13,8 @@ public class MemberRepository : GenaricRepository<Member>, IMemberRepository
         _context = context;
     }
 
-    public Member? SearchByFirstName(string firstName)
+    public async Task<Member?> SearchByFirstNameAsync(string firstName)
     {
-        return _context.Members.FirstOrDefault(m => m.FirstName == firstName);
+        return await _context.Members.FirstOrDefaultAsync(m => m.FirstName == firstName);
     }
 }

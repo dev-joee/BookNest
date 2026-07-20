@@ -1,18 +1,21 @@
 ﻿using BookNest.Data.IRepository;
 using BookNest.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookNest.Data.Repository;
 
 public class CategoryRepository : GenaricRepository<Category>, ICategoryRepository
 {
     private readonly BookNestDbContext _context;
+
     public CategoryRepository(BookNestDbContext context) : base(context)
     {
         _context = context;
     }
 
-    public Category? SearchByName(string name)
+    public async Task<Category?> SearchByNameAsync(string name)
     {
-        return _context.Categories.FirstOrDefault(c => c.Name == name);
+        return await _context.Categories
+            .FirstOrDefaultAsync(c => c.Name == name);
     }
 }

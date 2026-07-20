@@ -54,15 +54,15 @@
     1.3- Identify modules & business rules (BR-1..BR-9)        [~]
 
 
-2- Restore Compilable Baseline (UNBLOCK THE BUILD)             [ ]
+2- Restore Compilable Baseline (UNBLOCK THE BUILD)             [~]
 
     2.1- Comment out / stub Service registrations in
-         Program.cs so the solution compiles again             [ ]
+         Program.cs so the solution compiles again             [~]
     2.2- Register missing repo: IUserRecordRepositoy ->
-         UserRecordRepositoy in Program.cs                     [ ]
+         UserRecordRepositoy in Program.cs                     [~]
     2.3- Add app.UseAuthentication() before
-         app.UseAuthorization() in Program.cs                  [ ]
-    2.4- Confirm `dotnet build` succeeds                       [ ]
+         app.UseAuthorization() in Program.cs                  [~]
+    2.4- Confirm `dotnet build` succeeds                       [~]
 
 
 3- Data Layer - Models & Cleanup                               [!]
@@ -73,60 +73,60 @@
         3.1.2- Category                                        [~]
         3.1.3- Book                                            [~]
         3.1.4- Member                                          [~]
-        3.1.5- BorrowRecord                                    [!]
+        3.1.5- BorrowRecord                                    [~]
         3.1.6- UserRecord                                      [~]
         3.1.7- BookNestUser (Identity)                         [~]
         3.1.8- Enums (EnAction, EnStatue)                      [~]
 
     3.2- Fix model correctness issues                          [ ]
 
-        3.2.1- BorrowRecord.MemnerId typo -> MemberId          [ ]
+        3.2.1- BorrowRecord.MemnerId typo -> MemberId          [~]
         3.2.2- BorrowRecord.ReturnDate -> nullable
-               (DateTime?) for not-yet-returned books          [ ]
+               (DateTime?) for not-yet-returned books          [~]
         3.2.3- BorrowRecord add BookId + Book navigation
-               (a borrow links a Member AND a Book)            [ ]
+               (a borrow links a Member AND a Book)            [~]
         3.2.4- Book.BoorowRecordId typo + remove wrong
                FK direction (Book should not own a single
-               BorrowRecord)                                   [ ]
-        3.2.5- Add BorrowRecord.Status (EnStatue/enum)         [ ]
+               BorrowRecord)                                   [~]
+        3.2.5- Add BorrowRecord.Status (EnStatue/enum)         [~]
         3.2.6- Decide Member <-> Identity link (add UserId
                on Member OR treat Member as Identity user);
-               document choice - keep it simple                [ ]
-        3.2.7- Fix DbSet naming Categorys -> Categories        [ ]
+               document choice - keep it simple                [~]
+        3.2.7- Fix DbSet naming Categorys -> Categories        [~]
 
-    3.3- Relationships                                         [!]
+    3.3- Relationships                                         [~]
 
         3.3.1- Book -> Category (many-to-one)                  [~]
         3.3.2- Book -> Author (many-to-one)                    [~]
-        3.3.3- BorrowRecord -> Member (many-to-one)            [!]
-        3.3.4- BorrowRecord -> Book (many-to-one)              [ ]
+        3.3.3- BorrowRecord -> Member (many-to-one)            [~]
+        3.3.4- BorrowRecord -> Book (many-to-one)              [~]
         3.3.5- UserRecord -> User/Member/Book                  [~]
 
     3.4- Constraints (Fluent API / attributes)                 [ ]
 
-        3.4.1- Book.ISBN unique index (DB-level, BR-1)         [ ]
-        3.4.2- Book.Quantity CHECK >= 0 (BR-2)                 [ ]
-        3.4.3- Required string fields non-null                 [ ]
+        3.4.1- Book.ISBN unique index (DB-level, BR-1)         [~]
+        3.4.2- Book.Quantity CHECK >= 0 (BR-2)                 [~]
+        3.4.3- Required string fields non-null                 [~]
         3.4.4- Restrict delete when child rows exist
-               (BR-7, BR-8, BR-9)                              [ ]
+               (BR-7, BR-8, BR-9)                              [~]
 
     3.5- Repositories                                          [!]
 
         3.5.1- Generic repository                              [~]
         3.5.2- Per-entity repositories                         [~]
         3.5.3- Convert all repository methods to ASYNC
-               (Task-returning, ...Async EF calls)             [ ]
+               (Task-returning, ...Async EF calls)             [~]
         3.5.4- Add query support methods used later:
                search / filter / sort / pagination-ready
-               IQueryable or parameters                        [ ]
+               IQueryable or parameters                        [!]
         3.5.5- BorrowRecordRepository: GetActiveByMember,
-               GetHistory, CountActiveByMember                 [ ]
+               GetHistory, CountActiveByMember                 [~]
 
     3.6- Validation                                            [!]
 
         3.6.1- Book => Unique ISBN attribute                   [!]
               (fix: resolve IBookRepository, not concrete
-               BookRepository, via GetService)                 [ ]
+               BookRepository, via GetService)                 [~]
         3.6.2- BorrowRecord => Due Date after Borrow Date      [~]
         3.6.3- User => Role validation attribute               [~]
         3.6.4- Category Name max 50                            [~]
@@ -138,7 +138,7 @@
 
         3.7.1- DbSets registered                               [~]
         3.7.2- OnModelCreating fluent config (relations,
-               constraints, indexes from 3.4)                  [ ]
+               constraints, indexes from 3.4)                  [!]
         3.7.3- Inherit IdentityDbContext (done)                [~]
 
 
