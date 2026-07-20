@@ -1,0 +1,302 @@
+==================================================================
+ BookNest - Library Management System
+ Official Development Roadmap (workflow.txt)
+==================================================================
+
+ Project      : BookNest (ASP.NET Core MVC, EF Core, SQL Server, Identity)
+ Purpose      : Beginner-friendly Library Management System
+ Architecture : Models -> Repositories -> Services -> DTOs ->
+                Controllers -> ViewModels -> Razor Views
+ Source Truth : Docs/Business_Requirements.md
+ Last Analysis: 2026-07-20
+
+------------------------------------------------------------------
+ STATUS LEGEND
+------------------------------------------------------------------
+ [ ] = Not Started
+ [!] = Partially Completed
+ [~] = Completed
+
+------------------------------------------------------------------
+ ANALYSIS SUMMARY (current state of the repository)
+------------------------------------------------------------------
+ What EXISTS and works:
+   - All entity Models (Author, Book, Category, Member,
+     BorrowRecord, UserRecord) + Enums + Identity user.
+   - Generic Repository + per-entity Repositories & interfaces.
+   - DbContext with all DbSets.
+   - Identity + Repository DI registered in Program.cs.
+   - Three custom validation attributes exist.
+
+ What is BROKEN or MISSING:
+   - Build FAILS: Program.cs references Services/DTOs that were
+     intentionally removed. This is the first thing to fix.
+   - NO EF migrations and NO database created yet.
+   - NO Service Layer, NO DTO Layer (to be rebuilt).
+   - NO ViewModels, NO Areas, NO feature Controllers.
+   - Only Home controller + Home/Privacy/Error views exist.
+   - NO authentication UI (register/login/logout).
+   - NO role/admin seeding, NO seed data.
+   - Repositories are all SYNCHRONOUS (async required).
+   - Several model/design issues (typos, FK direction,
+     Member<->Identity link) need cleanup - see Section 3.
+   - NO logging, exception-handling, file upload, search,
+     filter, sort, pagination, dashboards, or reports yet.
+
+==================================================================
+ ROADMAP
+==================================================================
+
+1- Read & Understand Business Requirements                    [~]
+
+    1.1- Read Docs/Business_Requirements.md                    [~]
+    1.2- Identify roles (Admin, Librarian, Member)             [~]
+    1.3- Identify modules & business rules (BR-1..BR-9)        [~]
+
+
+2- Restore Compilable Baseline (UNBLOCK THE BUILD)            [ ]
+
+    2.1- Comment out / stub Service registrations in
+         Program.cs so the solution compiles again            [ ]
+    2.2- Register missing repo: IUserRecordRepositoy ->
+         UserRecordRepositoy in Program.cs                     [ ]
+    2.3- Add app.UseAuthentication() before
+         app.UseAuthorization() in Program.cs                  [ ]
+    2.4- Confirm `dotnet build` succeeds                       [ ]
+
+
+3- Data Layer - Models & Cleanup                             [!]
+
+    3.1- Entities present                                      [~]
+
+        3.1.1- Author                                          [~]
+        3.1.2- Category                                        [~]
+        3.1.3- Book                                            [~]
+        3.1.4- Member                                          [~]
+        3.1.5- BorrowRecord                                    [!]
+        3.1.6- UserRecord                                      [~]
+        3.1.7- BookNestUser (Identity)                         [~]
+        3.1.8- Enums (EnAction, EnStatue)                      [~]
+
+    3.2- Fix model correctness issues                          [ ]
+
+        3.2.1- BorrowRecord.MemnerId typo -> MemberId          [ ]
+        3.2.2- BorrowRecord.ReturnDate -> nullable
+               (DateTime?) for not-yet-returned books          [ ]
+        3.2.3- BorrowRecord add BookId + Book navigation
+               (a borrow links a Member AND a Book)            [ ]
+        3.2.4- Book.BoorowRecordId typo + remove wrong
+               FK direction (Book should not own a single
+               BorrowRecord)                                   [ ]
+        3.2.5- Add BorrowRecord.Status (EnStatue/enum)         [ ]
+        3.2.6- Decide Member <-> Identity link (add UserId
+               on Member OR treat Member as Identity user);
+               document choice - keep it simple                [ ]
+        3.2.7- Fix DbSet naming Categorys -> Categories        [ ]
+
+    3.3- Relationships                                         [!]
+
+        3.3.1- Book -> Category (many-to-one)                  [~]
+        3.3.2- Book -> Author (many-to-one)                    [~]
+        3.3.3- BorrowRecord -> Member (many-to-one)            [!]
+        3.3.4- BorrowRecord -> Book (many-to-one)              [ ]
+        3.3.5- UserRecord -> User/Member/Book                  [~]
+
+    3.4- Constraints (Fluent API / attributes)                 [ ]
+
+        3.4.1- Book.ISBN unique index (DB-level, BR-1)         [ ]
+        3.4.2- Book.Quantity CHECK >= 0 (BR-2)                 [ ]
+        3.4.3- Required string fields non-null                 [ ]
+        3.4.4- Restrict delete when child rows exist
+               (BR-7, BR-8, BR-9)                              [ ]
+
+    3.5- Repositories                                          [!]
+
+        3.5.1- Generic repository                              [~]
+        3.5.2- Per-entity repositories                         [~]
+        3.5.3- Convert all repository methods to ASYNC
+               (Task-returning, ...Async EF calls)             [ ]
+        3.5.4- Add query support methods used later:
+               search / filter / sort / pagination-ready
+               IQueryable or parameters                        [ ]
+        3.5.5- BorrowRecordRepository: GetActiveByMember,
+               GetHistory, CountActiveByMember                 [ ]
+
+    3.6- Validation                                            [!]
+
+        3.6.1- Book => Unique ISBN attribute                   [!]
+              (fix: resolve IBookRepository, not concrete
+               BookRepository, via GetService)                 [ ]
+        3.6.2- BorrowRecord => Due Date after Borrow Date      [~]
+        3.6.3- User => Role validation attribute               [~]
+        3.6.4- Category Name max 50                            [~]
+        3.6.5- Author Biography max 1000                       [~]
+        3.6.6- Book cover image JPG/PNG only                   [~]
+        3.6.7- Member email format + required phone            [~]
+
+    3.7- DbContext                                             [!]
+
+        3.7.1- DbSets registered                               [~]
+        3.7.2- OnModelCreating fluent config (relations,
+               constraints, indexes from 3.4)                  [ ]
+        3.7.3- Inherit IdentityDbContext (done)                [~]
+
+
+4- Identity, Seeding & Program Configuration                 [!]
+
+    4.1- Identity registered                                   [~]
+    4.2- Review password policy (currently very weak;
+         keep simple but sane for a demo)                      [ ]
+    4.3- Configure cookie / login paths                        [ ]
+    4.4- Seed roles: Admin, Librarian, Member                  [ ]
+    4.5- Seed a default Admin account                          [ ]
+    4.6- Add centralized exception-handling middleware         [ ]
+    4.7- Configure logging (ILogger usage baseline)            [ ]
+
+
+5- Database Migrations                                        [ ]
+
+    5.1- Add initial migration (after Section 3 & 4)           [ ]
+    5.2- Update database                                       [ ]
+    5.3- Verify tables, keys, unique ISBN index, seed data     [ ]
+
+
+6- DTO Layer (rebuild)                                        [ ]
+
+    6.1- Category DTOs (create/edit/list)                      [ ]
+    6.2- Author DTOs                                           [ ]
+    6.3- Book DTOs (incl. cover image upload field)            [ ]
+    6.4- Member DTOs                                           [ ]
+    6.5- Borrow / Return DTOs                                  [ ]
+    6.6- Account DTOs (register/login/change password)         [ ]
+    6.7- Mapping helpers (manual mapping, no AutoMapper)       [ ]
+
+
+7- Service Layer (rebuild) + re-enable DI in Program.cs      [ ]
+
+    7.1- IAccountService / AccountService
+         (register, login, logout, change password)           [ ]
+    7.2- ICategoryService / CategoryService (CRUD+search)      [ ]
+    7.3- IAuthorService / AuthorService (CRUD+search)          [ ]
+    7.4- IBookService / BookService
+         (CRUD, upload, search, filter, sort, paginate)        [ ]
+    7.5- IMemberService / MemberService (CRUD+search)          [ ]
+    7.6- IBorrowRecordService / BorrowRecordService            [ ]
+
+        7.6.1- Borrow: decrease quantity (BR-2, BR-5)          [ ]
+        7.6.2- Enforce max 5 active borrows (BR-3)             [ ]
+        7.6.3- Prevent duplicate active borrow (BR-4)          [ ]
+        7.6.4- Return: increase quantity (BR-6)                [ ]
+        7.6.5- Compute overdue period (FR-37)                  [ ]
+        7.6.6- Write UserRecord audit entries                  [ ]
+
+    7.7- IUserService / UserService (admin user/role mgmt)     [ ]
+    7.8- Uncomment & verify all service DI in Program.cs       [ ]
+    7.9- All service methods ASYNC                             [ ]
+
+
+8- Shared Infrastructure for UI                              [ ]
+
+    8.1- ViewModels folder + base list/paged view model        [ ]
+    8.2- Pagination helper (page size = 10)                    [ ]
+    8.3- File upload helper (save cover to wwwroot/uploads)    [ ]
+    8.4- TempData success/error notification pattern           [ ]
+    8.5- Navigation layout by role (_Layout partials)          [ ]
+
+
+9- Authentication Module (FR-1..FR-5)                        [ ]
+
+    9.1- AccountController (Register)                          [ ]
+    9.2- Login                                                 [ ]
+    9.3- Logout                                                [ ]
+    9.4- Change Password                                       [ ]
+    9.5- Register/Login/ChangePassword views                   [ ]
+    9.6- Role assignment on register (Member default)          [ ]
+
+
+10- Member Module                                            [ ]
+
+    10.1- Browse books (list + pagination)                     [ ]
+    10.2- Search books (title, ISBN, author)                   [ ]
+    10.3- Filter books by category                             [ ]
+    10.4- View book details                                    [ ]
+    10.5- Borrow a book (calls borrow service)                 [ ]
+    10.6- Return a book                                        [ ]
+    10.7- View borrowing history                               [ ]
+    10.8- Update profile (+ profile image, FR-39)              [ ]
+    10.9- Views for all above                                  [ ]
+
+
+11- Librarian Module                                         [ ]
+
+    11.1- Book management (CRUD + cover upload)                [ ]
+    11.2- Author management (CRUD)                             [ ]
+    11.3- Category management (CRUD)                           [ ]
+    11.4- Member management (CRUD)                             [ ]
+    11.5- Borrow books on behalf of members                    [ ]
+    11.6- Return books                                         [ ]
+    11.7- View borrowing history (search/sort)                 [ ]
+    11.8- Views for all above                                  [ ]
+
+
+12- Admin Module                                             [ ]
+
+    12.1- Manage users (list, edit, delete)                    [ ]
+    12.2- Manage roles                                         [ ]
+    12.3- Manage librarians (create/assign role)               [ ]
+    12.4- Manage categories                                    [ ]
+    12.5- Views for all above                                  [ ]
+
+
+13- Dashboards (Module 2)                                     [ ]
+
+    13.1- Member dashboard                                     [ ]
+    13.2- Librarian dashboard                                  [ ]
+    13.3- Admin dashboard                                      [ ]
+    13.4- Statistics: total/available/borrowed books,
+          members, active borrowings                           [ ]
+
+
+14- Reports (Module 10, Admin)                               [ ]
+
+    14.1- Total / Available / Borrowed books                   [ ]
+    14.2- Most borrowed books                                  [ ]
+    14.3- Overdue borrowings                                   [ ]
+    14.4- Active members                                       [ ]
+    14.5- Report views                                         [ ]
+
+
+15- User Interface Polish                                    [ ]
+
+    15.1- Consistent Bootstrap layout & responsive design      [ ]
+    15.2- Role-based navigation menu                           [ ]
+    15.3- Client-side validation scripts on forms              [ ]
+    15.4- Success/error notification display                   [ ]
+    15.5- Empty-state & not-found pages                        [ ]
+
+
+16- Security & Authorization                                 [ ]
+
+    16.1- [Authorize] on all protected controllers/actions     [ ]
+    16.2- Role-based [Authorize(Roles=...)]                     [ ]
+    16.3- Anti-forgery tokens on all POST forms (CSRF)         [ ]
+    16.4- Verify each role only sees allowed pages             [ ]
+    16.5- Confirm passwords hashed by Identity                 [ ]
+
+
+17- Testing & Final Review                                   [ ]
+
+    17.1- Manual test each functional requirement (FR-1..40)   [ ]
+    17.2- Verify each business rule (BR-1..BR-9)               [ ]
+    17.3- Test search / filter / sort / pagination             [ ]
+    17.4- Test file upload (JPG/PNG only)                       [ ]
+    17.5- Verify logging & exception handling                   [ ]
+    17.6- Final build + run clean                               [ ]
+    17.7- Update README with setup & run instructions           [ ]
+
+==================================================================
+ NEXT ACTION: Start at Task 2 (unblock the build), then work
+ sequentially. Task 3 (model cleanup) must be finished before
+ the first migration in Task 5. Services (Task 7) depend on the
+ DTOs (Task 6), and all UI modules (9-14) depend on Services.
+==================================================================
