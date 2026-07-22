@@ -34,3 +34,4 @@ publish/
 # OS files
 .DS_Store
 Thumbs.db**/Migrations/
+BookNest.Data/Migrations/
