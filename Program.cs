@@ -28,6 +28,15 @@ builder.Services.AddIdentity<BookNestUser, IdentityRole>(options =>
     options.Password.RequireUppercase = false;
 }).AddEntityFrameworkStores<BookNestDbContext>().AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "Account/Login";
+    options.LogoutPath = "Account/Logout";
+    options.AccessDeniedPath = "Account/AccessDenied";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromDays(7);
+});
+
 builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenaricRepository<>));
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

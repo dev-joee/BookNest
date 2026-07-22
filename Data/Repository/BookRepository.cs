@@ -31,4 +31,9 @@ public class BookRepository : GenaricRepository<Book>, IBookRepository
             .Where(b => b.CategoryId == categoryId)
             .ToListAsync();
     }
+
+    public IEnumerable<Book> GetAll()
+    {
+        return _context.Books.ToList();
+    }
 }
